@@ -151,6 +151,7 @@
         let isMoving = false;
         let escapeCount = 0;
         let isGameActive = true;
+        let detectionZone = 120; // Zone de détection élargie en pixels
 
         const escapeMessages = [
             '🚀 Réserver maintenant',
@@ -162,7 +163,12 @@
             '⚡ Plus rapide !',
             '🎪 Surprise !',
             '🎯 Raté !',
-            '🏃‍♀️ Fuyons !'
+            '🏃‍♀️ Fuyons !',
+            '👻 Insaisissable !',
+            '🌪️ Tourbillon !',
+            '💫 Pfiou !',
+            '🦋 Papillon !',
+            '⭐ Étoile filante !'
         ];
 
         function initializeEscapingButton() {
@@ -173,22 +179,45 @@
                 return;
             }
 
-            escapingButton.addEventListener('mouseenter', handleMouseApproach);
-            escapingButton.addEventListener('mouseover', handleMouseApproach);
+            // Surveillance continue de la position de la souris
+            document.addEventListener('mousemove', checkMouseProximity);
             escapingButton.addEventListener('mousedown', handleMouseDown);
-            escapingButton.addEventListener('focus', handleMouseApproach);
+            escapingButton.addEventListener('click', handleClick);
+            escapingButton.addEventListener('focus', escapeButton);
             
-            console.log('✅ Bouton fuyant initialisé');
+            console.log('✅ Bouton fuyant ultra-sensible initialisé');
         }
 
-        function handleMouseApproach() {
-            if (!isGameActive || isMoving) return;
-            escapeButton();
+        function checkMouseProximity(event) {
+            if (!isGameActive || isMoving || !escapingButton) return;
+
+            const buttonRect = escapingButton.getBoundingClientRect();
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+
+            // Calcul de la distance entre la souris et le bouton
+            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+            
+            const distance = Math.sqrt(
+                Math.pow(mouseX - buttonCenterX, 2) + 
+                Math.pow(mouseY - buttonCenterY, 2)
+            );
+
+            // Si la souris est dans la zone de détection, le bouton s'échappe
+            if (distance < detectionZone) {
+                escapeButton();
+            }
         }
 
         function handleMouseDown(event) {
             event.preventDefault();
             if (!isGameActive || isMoving) return;
+            escapeButton();
+        }
+
+        function handleClick(event) {
+            event.preventDefault();
             escapeButton();
         }
 
@@ -200,11 +229,12 @@
             
             console.log(`🏃‍♂️ Tentative d'évasion #${escapeCount}`);
             
+            // Déplacer le bouton hors de son conteneur pour qu'il puisse aller partout
             if (escapingButton.parentElement.classList.contains('button-zone')) {
                 document.body.appendChild(escapingButton);
             }
             
-            const margin = 60;
+            const margin = 80;
             const maxX = Math.max(margin, window.innerWidth - escapingButton.offsetWidth - margin);
             const maxY = Math.max(margin, window.innerHeight - escapingButton.offsetHeight - margin);
             
@@ -215,62 +245,51 @@
             escapingButton.style.left = newX + 'px';
             escapingButton.style.top = newY + 'px';
             escapingButton.style.zIndex = '99999';
-            escapingButton.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            escapingButton.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             
-            if (Math.random() < 0.4) {
+            // Changer le message aléatoirement
+            if (Math.random() < 0.6) {
                 const randomMessage = escapeMessages[Math.floor(Math.random() * escapeMessages.length)];
                 escapingButton.textContent = randomMessage;
             }
             
-            if (escapeCount >= 12) {
-                setTimeout(() => {
-                    stopEscapeGame();
-                }, 600);
+            // Augmenter la zone de détection progressivement pour plus de difficulté
+            if (escapeCount % 5 === 0) {
+                detectionZone = Math.min(detectionZone + 10, 200);
+                console.log(`📡 Zone de détection augmentée à ${detectionZone}px`);
             }
             
             setTimeout(() => {
                 isMoving = false;
-            }, 400);
+            }, 300);
         }
 
-        function stopEscapeGame() {
-            isGameActive = false;
-            
-            escapingButton.removeEventListener('mouseenter', handleMouseApproach);
-            escapingButton.removeEventListener('mouseover', handleMouseApproach);
-            escapingButton.removeEventListener('mousedown', handleMouseDown);
-            escapingButton.removeEventListener('focus', handleMouseApproach);
-            
-            escapingButton.style.position = 'static';
-            escapingButton.style.left = 'auto';
-            escapingButton.style.top = 'auto';
-            escapingButton.style.zIndex = 'auto';
-            escapingButton.style.transition = 'all 0.5s ease';
-            
-            escapingButton.textContent = '🎉 Félicitations ! Cliquez maintenant';
-            escapingButton.classList.add('captured');
-            
-            escapingButton.addEventListener('click', function() {
-                console.log('🏛️ Redirection vers la Grèce...');
-                window.location.href = '../index.html';
-            });
-            
-            console.log('🎉 Jeu terminé ! Le bouton peut maintenant être cliqué.');
-        }
-
+        // Fonctions de débogage pour la console
         window.stopEscape = function() {
-            stopEscapeGame();
-            console.log('🎉 Jeu arrêté via la console !');
+            isGameActive = false;
+            document.removeEventListener('mousemove', checkMouseProximity);
+            console.log('🛑 Jeu arrêté via la console !');
+        };
+        
+        window.startEscape = function() {
+            isGameActive = true;
+            document.addEventListener('mousemove', checkMouseProximity);
+            console.log('▶️ Jeu redémarré via la console !');
         };
         
         window.resetEscape = function() {
             escapeCount = 0;
+            detectionZone = 120;
             isGameActive = true;
             isMoving = false;
             escapingButton.textContent = '🚀 Réserver maintenant';
             escapingButton.classList.remove('captured');
-            initializeEscapingButton();
-            console.log('🔄 Jeu redémarré !');
+            console.log('🔄 Jeu complètement réinitialisé !');
+        };
+
+        window.setDetectionZone = function(pixels) {
+            detectionZone = pixels;
+            console.log(`📡 Zone de détection définie à ${pixels}px`);
         };
     </script>
 </body>
