@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourista - Réservation Sécurisée</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-icon">🔒</div>
+        <div class="floating-icon">🎫</div>
+        <div class="floating-icon">🔐</div>
+    </div>
+
+    <header class="header">
+        <h1 class="logo">Tourist<span class="trap">a</span></h1>
+        <p class="tagline">Accès sécurisé au système de réservation</p>
+        <nav class="breadcrumb">
+            <a href="index.html">Accueil</a> > <a href="destinations.html">Destinations</a> > <span>Réservation</span>
+        </nav>
+    </header>
+
+    <main class="reservation-container">
+        <div class="reservation-box">
+            <h2 class="reservation-title">🔐 Zone Sécurisée</h2>
+            <p class="reservation-intro">
+                Pour accéder au système de réservation ultra-sécurisé, vous devez démontrer 
+                que vous n'êtes pas un robot en reconstituant le message secret ci-dessous.
+            </p>
+
+            <p class="welcome-text">
+                Bienvenue dans notre système de réservation avancé. 
+                Notre technologie de pointe garantit la sécurité de vos données personnelles.
+                <span class="secret-code">confirmation.html</span>
+            </p>
+
+            <div class="puzzle-container">
+                <h3>🧩 Déchiffrez le message secret :</h3>
+                <p class="instruction">Bougez les mots pour découvrir le message caché</p>
+                
+                <div class="words-chaos-overlay">
+                    <div class="word-piece overlapped" draggable="true" data-word="Le">Le</div>
+                    <div class="word-piece overlapped" draggable="true" data-word="code">code</div>
+                    <div class="word-piece overlapped" draggable="true" data-word="n'est">n'est</div>
+                    <div class="word-piece overlapped" draggable="true" data-word="pas">pas</div>
+                    <div class="word-piece overlapped" draggable="true" data-word="ici">ici</div>
+                </div>
+
+
+            </div>
+
+            <div class="code-input-section">
+                <h3>🔑 Entrez le code d'accès :</h3>
+                <form class="code-form" onsubmit="checkSecretCode(event)">
+                    <input 
+                        type="text" 
+                        id="secret-code" 
+                        name="secret-code" 
+                        class="code-input" 
+                        placeholder="Code secret..."
+                        autocomplete="off"
+                        maxlength="20"
+                    >
+                    <button type="submit" class="submit-code-btn">
+                        🚀 Accéder aux réservations
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div class="footer-note">
+        Sécurité niveau 9000 • Codes cachés partout
+    </div>
+
+    <script>
+        let draggedElement = null;
+        const realSecretCode = "jsqoefn";
+
+        document.querySelectorAll('.word-piece').forEach(piece => {
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            piece.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                const rect = this.getBoundingClientRect();
+                initialX = rect.left;
+                initialY = rect.top;
+                
+                this.style.position = 'fixed';
+                this.style.zIndex = '1000';
+                this.style.cursor = 'grabbing';
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                
+                e.preventDefault();
+            });
+
+            function onMouseMove(e) {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                piece.style.left = (initialX + deltaX) + 'px';
+                piece.style.top = (initialY + deltaY) + 'px';
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                piece.style.cursor = 'grab';
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+
+            piece.addEventListener('dblclick', function() {
+                this.style.position = 'absolute';
+                this.style.left = 'auto';
+                this.style.top = 'auto';
+                this.style.zIndex = 'auto';
+            });
+        });
+
+        window.addEventListener('load', function() {
+            const container = document.querySelector('.words-chaos-overlay');
+            const words = document.querySelectorAll('.word-piece.overlapped');
+            
+            words.forEach((word, index) => {
+                const randomX = Math.random() * 200 - 100; 
+                const randomY = Math.random() * 200 - 100; 
+                const randomRotation = Math.random() * 60 - 30; 
+                const randomScale = 0.8 + Math.random() * 0.4; 
+                
+                word.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg) scale(${randomScale})`;
+                word.style.zIndex = Math.floor(Math.random() * 10);
+            });
+        });
+
+        function checkSecretCode(event) {
+            event.preventDefault();
+            const inputCode = document.getElementById('secret-code').value.trim();
+            
+            if (inputCode === realSecretCode) {
+                alert('🎊 Code correct ! Redirection vers les réservations...');
+                window.location.href = 'booking-success.html';
+            } else if (inputCode.toLowerCase() === 'le code n\'est pas ici' || inputCode.toLowerCase() === 'le code nest pas ici') {
+                alert('😄 Très drôle ! Mais ce n\'est effectivement pas le bon code...\n');
+            } else {
+                alert('❌ Code incorrect. Le secret se cache peut-être dans les détails...');
+            }
+        }
+
+        console.log('%c Le vrai code n\'est PAS dans cette console ! 😜', 'color: red; font-size: 16px; font-weight: bold;');
+    </script>
+</body>
+</html>

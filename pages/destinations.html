@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toursita - Nos Destinations Extraordinaires</title>
+    <link rel="stylesheet" href="../styles/styles2.css">
+</head>
+<body>
+    <div id="js-status" class="js-status"></div>
+
+    <div class="floating-elements">
+        <div class="floating-icon">🌍</div>
+        <div class="floating-icon">🚀</div>
+        <div class="floating-icon">🗺️</div>
+    </div>
+
+    <header class="header">
+        <h1 class="logo">Tourist<span class="trap">a</span></h1>
+        <p class="tagline">Explorez l'impossible</p>
+        <nav class="breadcrumb">
+        </nav>
+    </header>
+
+    <main class="destinations-container">
+        <div class="destinations-box">
+            <h2 class="destinations-title">🌟 Nos Destinations Exclusives</h2>
+            <p class="destinations-intro">
+                Découvrez notre sélection de voyages extraordinaires. 
+                Attention : certaines destinations peuvent défier les lois de la réalité.
+            </p>
+
+            <div class="destinations-grid">
+                <div class="destination-card unavailable">
+                    <div class="destination-header">
+                        <h3>🏝️ L'Île de Schrödinger</h3>
+                        <span class="status unavailable-badge">INDISPONIBLE</span>
+                    </div>
+                    <p class="destination-desc">Une île qui existe et n'existe pas à la fois. Parfait pour les amateurs de paradoxes quantiques.</p>
+                    <div class="destination-details">
+                        <span class="price">Prix : ∞€</span>
+                        <span class="duration">Durée : Variable</span>
+                    </div>
+                </div>
+
+                <div class="destination-card unavailable">
+                    <div class="destination-header">
+                        <h3>⏰ Le Café du Temps Perdu</h3>
+                        <span class="status unavailable-badge">INDISPONIBLE</span>
+                    </div>
+                    <p class="destination-desc">Un café où chaque tasse vous fait revivre vos souvenirs. Attention aux boucles temporelles.</p>
+                    <div class="destination-details">
+                        <span class="price">Prix : Vos souvenirs</span>
+                        <span class="duration">Durée : Éternelle</span>
+                    </div>
+                </div>
+
+                <div class="destination-card unavailable">
+                    <div class="destination-header">
+                        <h3>🌙 La Face Cachée de la Lune</h3>
+                        <span class="status unavailable-badge">INDISPONIBLE</span>
+                    </div>
+                    <p class="destination-desc">Visitez l'autre côté de la lune où vivent les fromagers lunaires et leurs vaches anti-gravitationnelles.</p>
+                    <div class="destination-details">
+                        <span class="price">Prix : 1 Million d'étoiles</span>
+                        <span class="duration">Durée : 28 jours lunaires</span>
+                    </div>
+                </div>
+
+                <div class="destination-card unavailable">
+                    <div class="destination-header">
+                        <h3>🌪️ L'Œil du Cyclone Temporel</h3>
+                        <span class="status unavailable-badge">INDISPONIBLE</span>
+                    </div>
+                    <p class="destination-desc">Un endroit calme au centre d'une tempête qui traverse les époques. Wi-Fi inclus.</p>
+                    <div class="destination-details">
+                        <span class="price">Prix : Négociable</span>
+                        <span class="duration">Durée : Instantanée</span>
+                    </div>
+                </div>
+
+                <div class="destination-card unavailable">
+                    <div class="destination-header">
+                        <h3>🕳️ Le Trou Noir de la Procrastination</h3>
+                        <span class="status unavailable-badge">INDISPONIBLE</span>
+                    </div>
+                    <p class="destination-desc">L'endroit parfait pour remettre à plus tard. Vous y arriverez... demain.</p>
+                    <div class="destination-details">
+                        <span class="price">Prix : Plus tard</span>
+                        <span class="duration">Durée : Reportée</span>
+                    </div>
+                </div>
+
+                <div class="destination-card available">
+                    <div class="destination-header">
+                        <h3>🏛️ La Graisse Antique</h3>
+                        <span class="status available-badge">DISPONIBLE ✨</span>
+                    </div>
+                    <p class="destination-desc">Découvrez les mystères de cette destination méditerranéenne aux secrets millénaires. Départ immédiat possible !</p>
+                    <div class="destination-details">
+                        <span class="price">Prix : 299€</span>
+                        <span class="duration">Durée : 7 jours</span>
+                    </div>
+                    
+                    <div class="button-zone">
+                        <button id="escaping-button" class="escaping-btn">
+                            🚀 Réserver maintenant
+                        </button>
+                        
+                        <div class="fallback-buttons">
+                            <a href="reservation.html" class="fallback-btn">
+                                🚀 Réserver maintenant
+                            </a>
+                            <a href="reservalt.html" class="fallback-btn secondary">
+                                ✈️ Réservation alternative
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>🤔 Problèmes techniques ?</h3>
+                <p class="help-text">
+                    Si un bouton semble avoir pris vie et refuse de coopérer, 
+                    essayez de désactiver JavaScript dans votre navigateur. 
+                    Parfois, la technologie a besoin d'une petite pause...
+                </p>
+                <p class="help-text">
+                    <strong>Pour désactiver JS :</strong> F12 → Settings → Disable JavaScript → Rafraîchir (F5)
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div class="footer-note">
+        Système de réservation v2.3.1 • Bugs inclus gratuitement
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.documentElement.classList.add('js-active');
+            
+            const statusIndicator = document.getElementById('js-status');
+            statusIndicator.className = 'js-status js-active';
+            
+            initializeEscapingButton();
+        });
+
+        let escapingButton;
+        let isMoving = false;
+        let escapeCount = 0;
+        let isGameActive = true;
+
+        const escapeMessages = [
+            '🚀 Réserver maintenant',
+            '😄 Attrapez-moi !',
+            '🏃‍♂️ Trop lent !',
+            '😜 Presque !',
+            '🎯 Visez mieux !',
+            '🕹️ Cache-cache !',
+            '⚡ Plus rapide !',
+            '🎪 Surprise !',
+            '🎯 Raté !',
+            '🏃‍♀️ Fuyons !'
+        ];
+
+        function initializeEscapingButton() {
+            escapingButton = document.getElementById('escaping-button');
+            
+            if (!escapingButton) {
+                console.error('Bouton fuyant introuvable !');
+                return;
+            }
+
+            escapingButton.addEventListener('mouseenter', handleMouseApproach);
+            escapingButton.addEventListener('mouseover', handleMouseApproach);
+            escapingButton.addEventListener('mousedown', handleMouseDown);
+            escapingButton.addEventListener('focus', handleMouseApproach);
+            
+            console.log('✅ Bouton fuyant initialisé');
+        }
+
+        function handleMouseApproach() {
+            if (!isGameActive || isMoving) return;
+            escapeButton();
+        }
+
+        function handleMouseDown(event) {
+            event.preventDefault();
+            if (!isGameActive || isMoving) return;
+            escapeButton();
+        }
+
+        function escapeButton() {
+            if (isMoving) return;
+            
+            isMoving = true;
+            escapeCount++;
+            
+            console.log(`🏃‍♂️ Tentative d'évasion #${escapeCount}`);
+            
+            if (escapingButton.parentElement.classList.contains('button-zone')) {
+                document.body.appendChild(escapingButton);
+            }
+            
+            const margin = 60;
+            const maxX = Math.max(margin, window.innerWidth - escapingButton.offsetWidth - margin);
+            const maxY = Math.max(margin, window.innerHeight - escapingButton.offsetHeight - margin);
+            
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            escapingButton.style.position = 'fixed';
+            escapingButton.style.left = newX + 'px';
+            escapingButton.style.top = newY + 'px';
+            escapingButton.style.zIndex = '99999';
+            escapingButton.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            
+            if (Math.random() < 0.4) {
+                const randomMessage = escapeMessages[Math.floor(Math.random() * escapeMessages.length)];
+                escapingButton.textContent = randomMessage;
+            }
+            
+            if (escapeCount >= 12) {
+                setTimeout(() => {
+                    stopEscapeGame();
+                }, 600);
+            }
+            
+            setTimeout(() => {
+                isMoving = false;
+            }, 400);
+        }
+
+        function stopEscapeGame() {
+            isGameActive = false;
+            
+            escapingButton.removeEventListener('mouseenter', handleMouseApproach);
+            escapingButton.removeEventListener('mouseover', handleMouseApproach);
+            escapingButton.removeEventListener('mousedown', handleMouseDown);
+            escapingButton.removeEventListener('focus', handleMouseApproach);
+            
+            escapingButton.style.position = 'static';
+            escapingButton.style.left = 'auto';
+            escapingButton.style.top = 'auto';
+            escapingButton.style.zIndex = 'auto';
+            escapingButton.style.transition = 'all 0.5s ease';
+            
+            escapingButton.textContent = '🎉 Félicitations ! Cliquez maintenant';
+            escapingButton.classList.add('captured');
+            
+            escapingButton.addEventListener('click', function() {
+                console.log('🏛️ Redirection vers la Grèce...');
+                window.location.href = 'index.html';
+            });
+            
+            console.log('🎉 Jeu terminé ! Le bouton peut maintenant être cliqué.');
+        }
+
+        window.stopEscape = function() {
+            stopEscapeGame();
+            console.log('🎉 Jeu arrêté via la console !');
+        };
+        
+        window.resetEscape = function() {
+            escapeCount = 0;
+            isGameActive = true;
+            isMoving = false;
+            escapingButton.textContent = '🚀 Réserver maintenant';
+            escapingButton.classList.remove('captured');
+            initializeEscapingButton();
+            console.log('🔄 Jeu redémarré !');
+        };
+    </script>
+</body>
+</html>

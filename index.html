@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TouristeTrap - Voyagez au-delà de vos rêves... et de la réalité</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-icon">✈️</div>
+        <div class="floating-icon">🏝️</div>
+        <div class="floating-icon">🧳</div>
+    </div>
+
+    <header class="header">
+        <h1 class="logo">Tourist<span class="trap">a</span></h1>
+        <p class="tagline">Voyagez au-delà de vos rêves... et de la réalité</p>
+    </header>
+
+    <main class="welcome-box">
+        <h2 class="welcome-title">Bienvenue, Voyageur Intrépide !</h2>
+<p class="welcome-text">
+    Vous êtes sur le point de découvrir des <b><i><span class="highlight-red">destinations</span></i></b> que vous n'auriez jamais imaginées. Chez TouristeTrap, nous ne nous contentons pas des voyages ordinaires. Nous proposons des expériences qui défient les lois de la physique, du temps et parfois même du bon sens.
+</p>
+        <p class="welcome-text">
+            Certains de nos clients sont revenus... la plupart même ! 
+            Alors, où souhaitez-vous aller aujourd'hui ?
+        </p>
+
+        <form class="form-container" onsubmit="handleSearch(event)">
+
+            <input 
+                type="text" 
+                id="destination" 
+                name="destination" 
+                class="destination-input" 
+                placeholder="Tapez le code pour accéder aux destinations"
+                autocomplete="off"
+            >
+            <button type="submit" class="search-btn">
+                Commencer l'Aventure 🚀
+            </button>
+        </form>
+
+        <p class="mystery-hint">
+            💡 Petit conseil : Parfois, les meilleures aventures commencent par les chemins les moins évidents...
+        </p>
+    </main>
+
+    <div class="footer-note">
+        Fondé en 1847 • Existe dans 42 dimensions parallèles
+    </div>
+
+    <script>
+        const SECRET_CODE = 'V0y4g3s'; 
+        
+        function handleSearch(event) {
+            event.preventDefault();
+            const inputCode = document.getElementById('destination').value.trim();
+            
+            if (inputCode === SECRET_CODE) {
+                window.location.href = './pages/destinations.html';
+            } else if (inputCode === '') {
+                alert('🤔 Un code vide ? Vous devez d\'abord entrer le code secret !');
+            } else {
+                triggerTextChaos();
+            }
+        }
+
+        function triggerTextChaos() {
+            const allTextElements = document.querySelectorAll('h1, h2, p, label, button, .tagline');
+            
+            allTextElements.forEach((element, index) => {
+                setTimeout(() => {
+                    explodeText(element);
+                }, index * 200);
+            });
+
+            setTimeout(() => {
+                showErrorMessage();
+            }, allTextElements.length * 200 + 2000);
+        }
+
+        function explodeText(element) {
+            const text = element.textContent;
+            const rect = element.getBoundingClientRect();
+            
+            element.style.opacity = '0';
+            
+            text.split('').forEach((char, index) => {
+                if (char.trim() !== '') {
+                    createFlyingLetter(char, rect, index);
+                }
+            });
+        }
+
+        function createFlyingLetter(char, originalRect, index) {
+            const letter = document.createElement('div');
+            letter.textContent = char;
+            letter.className = 'flying-letter';
+            
+            letter.style.position = 'fixed';
+            letter.style.left = (originalRect.left + index * 15) + 'px';
+            letter.style.top = originalRect.top + 'px';
+            letter.style.color = getRandomColor();
+            letter.style.fontSize = Math.random() * 20 + 15 + 'px';
+            letter.style.fontWeight = Math.random() > 0.5 ? 'bold' : 'normal';
+            letter.style.zIndex = '9999';
+            letter.style.pointerEvents = 'none';
+            letter.style.transition = 'all 3s ease-out';
+            
+            document.body.appendChild(letter);
+            
+            setTimeout(() => {
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight;
+                const randomRotation = Math.random() * 720 - 360;
+                
+                letter.style.transform = `translate(${randomX - originalRect.left}px, ${randomY - originalRect.top}px) rotate(${randomRotation}deg) scale(${Math.random() * 2 + 0.5})`;
+                letter.style.opacity = '0';
+            }, Math.random() * 500);
+            
+            setTimeout(() => {
+                if (letter.parentNode) {
+                    letter.parentNode.removeChild(letter);
+                }
+            }, 4000);
+        }
+
+        function getRandomColor() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function showErrorMessage() {
+            const errorDiv = document.createElement('div');
+            errorDiv.innerHTML = `
+                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           background: rgba(0,0,0,0.9); color: #ff6b6b; padding: 30px; 
+                           border-radius: 15px; text-align: center; z-index: 10000;
+                           border: 2px solid #ff6b6b; box-shadow: 0 0 30px rgba(255,107,107,0.5);">
+                    <h2 style="margin-bottom: 15px; font-size: 2rem;">⚠️ CODE INCORRECT ⚠️</h2>
+                    <p style="margin-bottom: 20px; font-size: 1.2rem;">
+                        Le système de navigation temporelle a subi une surcharge !<br>
+                        Veuillez entrer le code secret correct pour restaurer l'ordre.
+                    </p>
+                    <button onclick="resetPage()" style="background: #ff6b6b; color: white; border: none; 
+                                   padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                        🔄 Restaurer la réalité
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(errorDiv);
+        }
+
+        function resetPage() {
+            window.location.reload();
+        }
+
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            
+            if (konamiCode.length > correctCode.length) {
+                konamiCode.shift();
+            }
+            
+            if (JSON.stringify(konamiCode) === JSON.stringify(correctCode)) {
+                window.location.href = 'konami-code-cruise.html';
+            }
+        });
+
+    </script>
+</body>
+</html>

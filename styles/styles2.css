@@ -1,0 +1,657 @@
+/* TouristeTrap - Styles principaux */
+/* Version refaite avec gestion correcte du bouton fuyant */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+/* === INDICATEUR DE STATUT JAVASCRIPT === */
+.js-status {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10000;
+    background: #f8d7da;
+    color: #721c24;
+    border: 2px solid #f5c6cb;
+    transition: all 0.3s ease;
+}
+
+.js-status.js-active {
+    background: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+/* === HEADER === */
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+    animation: fadeInDown 1s ease-out;
+}
+
+.logo {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+
+.logo .trap {
+    color: #ff6b6b;
+    animation: pulse 2s infinite;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    color: #e8e8e8;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.breadcrumb {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.breadcrumb a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: #ff6b6b;
+}
+
+/* === BOÎTES PRINCIPALES === */
+.welcome-box, .destinations-box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.welcome-box {
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+}
+
+.destinations-container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* === DESTINATIONS === */
+.destinations-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.destinations-intro {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.destination-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.destination-card.unavailable {
+    opacity: 0.7;
+    background: #f1f1f1;
+}
+
+.destination-card.available {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+    border-color: #4caf50;
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.2);
+}
+
+.destination-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.destination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.destination-header h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin: 0;
+    flex: 1;
+    min-width: 200px;
+}
+
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.unavailable-badge {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #e57373;
+}
+
+.available-badge {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #4caf50;
+    animation: glow 2s infinite;
+}
+
+.destination-desc {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.destination-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.price {
+    font-weight: bold;
+    color: #333;
+}
+
+.duration {
+    color: #666;
+}
+
+/* === ZONE DES BOUTONS === */
+.button-zone {
+    margin-top: 25px;
+    min-height: 50px;
+    position: relative;
+    overflow: visible;
+}
+
+/* === BOUTON FUYANT === */
+.escaping-btn {
+    /* MASQUÉ PAR DÉFAUT (sans JavaScript) */
+    display: none;
+    
+    /* Styles du bouton */
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    
+    /* Animation au hover */
+    transform-origin: center;
+}
+
+.escaping-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Afficher le bouton fuyant SEULEMENT avec JavaScript */
+.js-active .escaping-btn {
+    display: inline-block;
+}
+
+/* Style quand le bouton est capturé */
+.escaping-btn.captured {
+    background: linear-gradient(45deg, #4caf50, #45a049) !important;
+    animation: captureSuccess 0.8s ease-out;
+}
+
+/* === BOUTONS DE FALLBACK === */
+.fallback-buttons {
+    /* VISIBLES PAR DÉFAUT (sans JavaScript) */
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Masquer les boutons de fallback SEULEMENT avec JavaScript */
+.js-active .fallback-buttons {
+    display: none;
+}
+
+.fallback-btn {
+    background: linear-gradient(45deg, #4caf50, #45a049);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.fallback-btn:hover {
+    background: linear-gradient(45deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.fallback-btn.secondary {
+    background: linear-gradient(45deg, #2196f3, #1976d2);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.fallback-btn.secondary:hover {
+    background: linear-gradient(45deg, #1976d2, #1565c0);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+/* === SECTION D'AIDE === */
+.help-section {
+    background: rgba(255, 235, 59, 0.1);
+    border: 1px solid #fdd835;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.help-section h3 {
+    color: #f57f17;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.help-text {
+    color: #666;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    margin: 8px 0;
+}
+
+/* === ÉLÉMENTS FLOTTANTS === */
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-icon {
+    position: absolute;
+    color: rgba(255,255,255,0.1);
+    font-size: 2rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-icon:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-icon:nth-child(2) {
+    top: 60%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.floating-icon:nth-child(3) {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+/* === FOOTER === */
+.footer-note {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+    }
+}
+
+@keyframes captureSuccess {
+    0% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+    50% {
+        transform: scale(1.2) rotate(5deg);
+        box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+}
+
+/* === STYLES POUR LES AUTRES PAGES === */
+.welcome-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-container {
+    margin-top: 30px;
+}
+
+.form-label {
+    display: block;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.destination-input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    outline: none;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.destination-input:focus {
+    border-color: #667eea;
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+}
+
+.search-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.mystery-hint {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 2.5rem;
+    }
+    
+    .destinations-box {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .destinations-title {
+        font-size: 2rem;
+    }
+    
+    .destination-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .destination-details {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .fallback-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .fallback-btn,
+    .escaping-btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 16px 32px;
+        font-size: 1.1rem;
+    }
+    
+    .js-status {
+        top: 10px;
+        right: 10px;
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+    
+    .footer-note {
+        position: relative;
+        text-align: center;
+        margin-top: 20px;
+        bottom: auto;
+        right: auto;
+    }
+    
+    .welcome-box {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .welcome-text {
+        font-size: 1rem;
+    }
+}
+
+/* === EASTER EGGS ET EFFETS SPÉCIAUX === */
+.hidden-portal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    color: #00ff00;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    border: 2px solid #00ff00;
+    animation: glitch 0.5s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    25% { transform: translate(-51%, -49%) scale(1.01); }
+    50% { transform: translate(-49%, -51%) scale(0.99); }
+    75% { transform: translate(-50%, -50%) scale(1.02); }
+}
+
+/* Animations pour les lettres volantes (chaos mode) */
+.flying-letter {
+    font-family: inherit;
+    user-select: none;
+    animation: chaosRotate 3s ease-out forwards;
+}
+
+@keyframes chaosRotate {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0.3) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Animation de disparition pour les éléments originaux */
+.chaos-fade {
+    animation: fadeToNothing 0.5s ease-out forwards;
+}
+
+@keyframes fadeToNothing {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* === DEBUG ET DÉVELOPPEMENT === */
+/* Utilisez cette classe pour déboguer visuellement */
+.debug-border {
+    border: 2px dashed red !important;
+}
+
+.debug-bg {
+    background: rgba(255, 0, 0, 0.1) !important;
+}
+
+/* === FIN DU FICHIER === */
