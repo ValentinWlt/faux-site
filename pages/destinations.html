@@ -126,9 +126,6 @@
                     essayez de désactiver JavaScript dans votre navigateur. 
                     Parfois, la technologie a besoin d'une petite pause...
                 </p>
-                <p class="help-text">
-                    <strong>Pour désactiver JS :</strong> F12 → Settings → Disable JavaScript → Rafraîchir (F5)
-                </p>
             </div>
         </div>
     </main>
@@ -247,13 +244,11 @@
             escapingButton.style.zIndex = '99999';
             escapingButton.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             
-            // Changer le message aléatoirement
             if (Math.random() < 0.6) {
                 const randomMessage = escapeMessages[Math.floor(Math.random() * escapeMessages.length)];
                 escapingButton.textContent = randomMessage;
             }
             
-            // Augmenter la zone de détection progressivement pour plus de difficulté
             if (escapeCount % 5 === 0) {
                 detectionZone = Math.min(detectionZone + 10, 200);
                 console.log(`📡 Zone de détection augmentée à ${detectionZone}px`);
@@ -264,7 +259,6 @@
             }, 300);
         }
 
-        // Fonctions de débogage pour la console
         window.stopEscape = function() {
             isGameActive = false;
             document.removeEventListener('mousemove', checkMouseProximity);
